@@ -42,6 +42,8 @@ export default function Header({ onOpenNav }: Props) {
 
   const offsetTop = offset && !isNavHorizontal;
 
+  const render = false;
+
   const renderContent = (
     <>
       {lgUp && isNavHorizontal && <Logo sx={{ mr: 2.5 }} />}
@@ -109,7 +111,7 @@ export default function Header({ onOpenNav }: Props) {
           px: { lg: 5 },
         }}
       >
-        {/* {renderContent} */}
+        {render && renderContent}
       </Toolbar>
     </AppBar>
   );
