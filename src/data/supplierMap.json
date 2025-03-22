@@ -1,0 +1,27 @@
+/* 
+Jakie dane musimy wyciągnąć z XML
+1. NIP dostawcy 
+- na podstawie tego możemy zebrać nasze dane
+2. Data wystawienia faktury
+3. Data sprzedaży
+4. Numer faktury
+5. Data dostawy: dzisiaj?
+
+Przedmioty:
+1. Numer porządkowy
+2. EAN - na tej podstawie znajdę SKU
+3. Ilość
+4. Cena jednostkowa
+5. Jednostka miary
+6. Podatek?
+
+
+*/
+{
+    "nip": {
+        "telcon": {
+            "nip": "726-23-79-702",
+            "nipPath": "Document-Invoice Invoice-Parties Seller TaxID",
+        }
+    }
+}

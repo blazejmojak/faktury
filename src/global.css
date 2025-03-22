@@ -1,0 +1,23 @@
+/* scrollbar */
+@import 'simplebar-react/dist/simplebar.min.css';
+
+.form-group-gtin {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.allegro-login {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.allegro-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.allegro-buttons > button {
+  width: 100%;
+}
