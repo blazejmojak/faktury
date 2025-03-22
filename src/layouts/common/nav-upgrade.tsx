@@ -10,6 +10,8 @@ import { useMockedUser } from 'src/hooks/use-mocked-user';
 
 import Label from 'src/components/label';
 
+const render = false;
+
 // ----------------------------------------------------------------------
 
 export default function NavUpgrade() {
@@ -23,7 +25,7 @@ export default function NavUpgrade() {
         textAlign: 'center',
       }}
     >
-      <Stack alignItems="center">
+      {render && <Stack alignItems="center">
         <Box sx={{ position: 'relative' }}>
           <Avatar src={user?.photoURL} alt={user?.displayName} sx={{ width: 48, height: 48 }}>
             {user?.displayName?.charAt(0).toUpperCase()}
@@ -59,6 +61,7 @@ export default function NavUpgrade() {
           Sprawdź więcej
         </Button>
       </Stack>
+      }
     </Stack>
   );
 }
