@@ -112,6 +112,7 @@ export default function Header({ onOpenNav }: Props) {
         }}
       >
         {render && renderContent}
+        
       </Toolbar>
     </AppBar>
   );
