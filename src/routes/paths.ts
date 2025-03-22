@@ -37,7 +37,7 @@ export const paths = {
     ustawienia: {
       root: `${ROOTS.DASHBOARD}/ustawienia`,
     },
-    testy: `${ROOTS.DASHBOARD}/testy`,
+    subiektFaktury: `${ROOTS.DASHBOARD}/subiekt-faktury`,
     group: {
       root: `${ROOTS.DASHBOARD}/group`,
       five: `${ROOTS.DASHBOARD}/group/five`,

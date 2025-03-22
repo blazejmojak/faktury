@@ -67,7 +67,7 @@ export const dashboardRoutes = [
           { element: <Allegro />, index: true },
         ],
       },
-      { path: 'testy', element: <Testy /> },
+      { path: 'subiekt-faktury', element: <Testy /> },
       {
         path: 'group',
         children: [

@@ -44,6 +44,7 @@ export default function Header({ onOpenNav }: Props) {
 
   const render = false;
 
+
   const renderContent = (
     <>
       {lgUp && isNavHorizontal && <Logo sx={{ mr: 2.5 }} />}
@@ -54,9 +55,9 @@ export default function Header({ onOpenNav }: Props) {
         </IconButton>
       )}
 
-      <Searchbar />
+      {render && <Searchbar />}
 
-      <Stack
+      {render && <Stack
         flexGrow={1}
         direction="row"
         alignItems="center"
@@ -73,6 +74,7 @@ export default function Header({ onOpenNav }: Props) {
 
         <AccountPopover />
       </Stack>
+      }
     </>
   );
 
@@ -111,8 +113,7 @@ export default function Header({ onOpenNav }: Props) {
           px: { lg: 5 },
         }}
       >
-        {render && renderContent}
-        
+        {renderContent}
       </Toolbar>
     </AppBar>
   );

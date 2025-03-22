@@ -79,7 +79,7 @@ export function useNavData() {
           
           {
             title: 'Faktury Subiekt GT',
-            path: paths.dashboard.testy,
+            path: paths.dashboard.subiektFaktury,
             icon: ICONS.analytics,
           },
           // {
