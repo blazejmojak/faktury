@@ -49,66 +49,67 @@ export function useNavData() {
       // OVERVIEW
       // ----------------------------------------------------------------------
       {
-        subheader: 'overview v5.7.0',
+        subheader: 'wersja 1.0',
         items: [
           { title: 'Dashboard', path: paths.dashboard.root, icon: ICONS.dashboard },
-          { title: 'GS1 Lista', path: paths.dashboard.gs1lista, icon: ICONS.tour },
+          // { title: 'GS1 Lista', path: paths.dashboard.gs1lista, icon: ICONS.tour },
+          // {
+          //   title: 'Dodaj Nowy GTIN',
+          //   path: paths.dashboard.gs1add,
+          //   icon: ICONS.product,
+          // },
+          // {
+          //   title: 'Allegro',
+          //   path: paths.dashboard.allegro.root,
+          //   icon: ICONS.user,
+          //   children: [
+          //     { title: 'Zwiększenie ceny GSM', path: paths.dashboard.allegro.root },
+          //     { title: 'Raport sprzedaży z allegro', path: paths.dashboard.allegro.raportSprzedazy },
+          //     { title: 'Generator 20', path: paths.dashboard.allegro.generator20 },
+          //   ],
+          // },
+          // {
+          //   title: 'Subiekt GT',
+          //   path: paths.dashboard.allegro.root,
+          //   icon: ICONS.user,
+          //   children: [
+          //     { title: 'Konwertor Faktur', path: paths.dashboard.subiektgt.root },
+          //   ],
+          // },
+          
           {
-            title: 'Dodaj Nowy GTIN',
-            path: paths.dashboard.gs1add,
-            icon: ICONS.product,
-          },
-          {
-            title: 'Allegro',
-            path: paths.dashboard.allegro.root,
-            icon: ICONS.user,
-            children: [
-              { title: 'Zwiększenie ceny GSM', path: paths.dashboard.allegro.root },
-              { title: 'Raport sprzedaży z allegro', path: paths.dashboard.allegro.raportSprzedazy },
-              { title: 'Generator 20', path: paths.dashboard.allegro.generator20 },
-            ],
-          },
-          {
-            title: 'Subiekt GT',
-            path: paths.dashboard.allegro.root,
-            icon: ICONS.user,
-            children: [
-              { title: 'Konwertor Faktur', path: paths.dashboard.subiektgt.root },
-            ],
-          },
-          {
-            title: 'Ustawienia',
-            path: paths.dashboard.ustawienia.root,
-            icon: ICONS.user,
-            children: [
-              { title: 'allegro', path: paths.dashboard.ustawienia.root },
-            ],
-          },
-          {
-            title: 'Testy',
+            title: 'Faktury Subiekt GT',
             path: paths.dashboard.testy,
-            icon: ICONS.product,
+            icon: ICONS.analytics,
           },
+          // {
+          //   title: 'Ustawienia',
+          //   path: paths.dashboard.ustawienia.root,
+          //   icon: ICONS.user,
+          //   children: [
+          //     { title: 'allegro', path: paths.dashboard.ustawienia.root },
+          //   ],
+          // },
         ],
       },
 
       // MANAGEMENT
       // ----------------------------------------------------------------------
-      {
-        subheader: 'management',
-        items: [
-          {
-            title: 'user',
-            path: paths.dashboard.group.root,
-            icon: ICONS.user,
-            children: [
-              { title: 'four', path: paths.dashboard.group.root },
-              { title: 'five', path: paths.dashboard.group.five },
-              { title: 'six', path: paths.dashboard.group.six },
-            ],
-          },
-        ],
-      },
+      // {
+      //   subheader: 'management',
+      //   items: [
+      //     {
+      //       title: 'user',
+      //       path: paths.dashboard.group.root,
+      //       icon: ICONS.user,
+      //       children: [
+      //         { title: 'four', path: paths.dashboard.group.root },
+      //         { title: 'five', path: paths.dashboard.group.five },
+      //         { title: 'six', path: paths.dashboard.group.six },
+      //       ],
+      //     },
+      //   ],
+      // },
     ],
     []
   );

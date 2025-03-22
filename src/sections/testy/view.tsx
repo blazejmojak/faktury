@@ -145,7 +145,7 @@ export default function TestView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> Testy </Typography>
+      <Typography variant="h4"> Faktury Subiekt GT </Typography>
 
       <Box sx={{
         display: 'flex',
