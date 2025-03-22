@@ -61,6 +61,7 @@ export default function NavUpgrade() {
           Sprawdź więcej
         </Button>
       </Stack>
+      
       }
     </Stack>
   );
