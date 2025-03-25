@@ -39,6 +39,8 @@ export const readXMLFile = (
         ) {
             nip = doc.querySelector("Naglowek Sprzedawca NIP")?.textContent || "";
             console.log('nip is: ', nip)
+            nip = nip.replace(/-/g, "");
+
             if (company === "aptel" && nip !== companies.aptel.nip) {
                 reject(new Error("Błędnie wybrana firma"))
             }
@@ -65,10 +67,13 @@ export const readXMLFile = (
             company === "mcm" ||
             company === "telcon" ||
             company === "ddMedia" ||
-            company === "toptel"
+            company === "toptel" ||
+            company === "verna" ||
+            company === "partner"
         ) {
             nip = doc.querySelector("Invoice-Parties Seller TaxID")?.textContent || "";
             console.log('nip is: ', nip)
+            nip = nip.replace(/-/g, "");
 
             if (company === "atrax" && nip !== companies.atrax.nip) {
                 reject(new Error("Błędnie wybrana firma"))
@@ -83,6 +88,12 @@ export const readXMLFile = (
                 reject(new Error("Błędnie wybrana firma"))
             }
             if (company === "toptel" && nip !== companies.toptel.nip) {
+                reject(new Error("Błędnie wybrana firma"))
+            }
+            if (company === "verna" && nip !== companies.verna.nip) {
+                reject(new Error("Błędnie wybrana firma"))
+            }
+            if (company === "partner" && nip !== companies.partner.nip) {
                 reject(new Error("Błędnie wybrana firma"))
             }
 

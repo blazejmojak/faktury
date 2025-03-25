@@ -5,7 +5,7 @@ import companies from "../data/companies";
 // Function to generate the EPP file content string from JSON data
 export function generateEppFile(data: TEppFile[], invoiceNumber: string, sellDate: string, invoiceDate: string, company: keyof typeof companies) {
     // Static sections based on your provided sample
-    const infoSection = `[INFO]\r\n,,1250,,"3",${companies[company].name},${companies[company].name},"","","","9662086519",,,,,,,,,,,,`;
+    const infoSection = `[INFO]\r\n,,1250,,${companies[company].symbol},${companies[company].name},${companies[company].name},"","","",${companies[company].nip},,,,,,,,,,,,`;
   
     const naglowekSection = `[NAGLOWEK]\r\n"FS",1,0,1,,,${invoiceNumber},,,,,,,,,,,,,,,${invoiceDate},${sellDate},,,1,,,,,,,,,,,,0,0,0,0,,,,,,"PLN",1.0000,,,,,0,0,0,,,,,,,`;
   

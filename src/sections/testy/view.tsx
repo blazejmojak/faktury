@@ -244,10 +244,12 @@ export default function TestView() {
                 <option value="dro">Dro</option>
                 <option value="flavour">Flavour</option>
                 <option value="mcm">MCM</option>
+                <option value="partner">PARTNER TELEKOM</option>
                 <option value="roter">Roter</option>
                 <option value="telcon">Telcon</option>
                 <option value="tf1">TF1</option>
                 <option value="toptel">Toptel</option>
+                <option value="verna">Verna</option>
               </TextField>
               <Button
                 variant='contained'
