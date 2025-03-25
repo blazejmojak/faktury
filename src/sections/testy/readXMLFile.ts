@@ -8,6 +8,7 @@ type TItems = {
     price: string;
 };
 
+
 export const readXMLFile = (
     file: Blob,
     company: string
