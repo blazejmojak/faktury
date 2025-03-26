@@ -5,6 +5,7 @@ import { Box, Grid, Container, TextField, Button, Checkbox } from "@mui/material
 import { TAllOffersBySkuAndAllegro, TEppFile } from "src/types/subiektAllegro";
 
 import companies from "./data/companies";
+import formatDate from "./helpers/formatDate";
 import { generateEppFile } from "./helpers/generateEppFile";
 
 
@@ -94,7 +95,10 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "ended_sku_list.txt";
+       
+        const formattedDateToFileName = formatDate()
+       
+        link.download = `zakonczone-${company}-${invoiceNumber}-${formattedDateToFileName}.txt`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -115,7 +119,10 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "checked_sku_list.txt";
+
+        const formattedDateToFileName = formatDate()
+
+        link.download = `do_wystawienia-${company}-${invoiceNumber}-${formattedDateToFileName}.txt`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
