@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 import { Box, Grid, Container, TextField, Button, Checkbox } from "@mui/material";
@@ -42,13 +43,13 @@ const extractNumber = (str: string) => {
     return match ? parseInt(match[1], 10) : 0;
 }
 
-const checkNumberInFlag = (flag: string) => {
-    const number = extractNumber(flag);
-    if (number > 0) {
-        return number;
-    }
-    return null;
-}
+// const checkNumberInFlag = (flag: string) => {
+//     const number = extractNumber(flag);
+//     if (number > 0) {
+//         return number;
+//     }
+//     return null;
+// }
 
 const setQuantityToEverySku = (allOffersBySkuAndAllegro: TAllOffersBySkuAndAllegro[]) => {
     // jeżeli allOffersBySkuAndAllegro.allOffersBySKU.length === 1 to dla każdego SKU ustaw orderedQuantity
@@ -66,7 +67,7 @@ const setQuantityToEverySku = (allOffersBySkuAndAllegro: TAllOffersBySkuAndAlleg
                 offer.checked = true;
             }
         });
-    }); 
+    });
     return allOffersBySkuAndAllegro;
 }
 
@@ -95,9 +96,9 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-       
+
         const formattedDateToFileName = formatDate()
-       
+
         link.download = `zakonczone-${company}-${invoiceNumber}-${formattedDateToFileName}.txt`;
         document.body.appendChild(link);
         link.click();
@@ -236,8 +237,47 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
         });
 
         setOffersBySkuAndAllegro(updatedOffersBySkuAndAllegro);
+
+    };
+
+    const changeFlagComment = async (comment: string, eanIndex: number, skuIndex: number, deleteFlagName = false) => {
+
+        const updatedOffersBySkuAndAllegro = offersBySkuAndAllegro.map((ean, currentEanIndex) => {
+            if (currentEanIndex !== eanIndex) return ean;
+
+            return {
+                ...ean,
+                allOffersBySKU: ean.allOffersBySKU.map((sku, currentSkuIndex) => {
+                    if (currentSkuIndex !== skuIndex) return sku;
+                    return {
+                        ...sku,
+                        komentarzFlagi: comment,
+                        nazwaFlagi: deleteFlagName ? "" : sku.nazwaFlagi
+                    };
+                })
+            };
+        });
+
+        setOffersBySkuAndAllegro(updatedOffersBySkuAndAllegro);
+
+       
+    }
+
+    const changeFlagCommentInSubiekt = async (comment: string, nazwaFlagi: string, towarSubiektDbId: number) => {
         
-    }; 
+        const response = await axios.post(`http://localhost:5005/subiekt/changeFlagComment`, {
+            towarSubiektDbId,
+            nazwaFlagi,
+            comment
+        });
+
+        console.log(response);
+    }
+
+    const deleteFlag = async (eanIndex: number, skuIndex: number, comment: string, nazwaFlagi: string, towarSubiektDbId: number) => {
+        changeFlagComment("", eanIndex, skuIndex, true);
+        changeFlagCommentInSubiekt("", "", towarSubiektDbId);
+    }
 
 
     return (
@@ -292,25 +332,58 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                 <Grid item sx={{ color: 'red', fontWeight: 'bold' }}> Brak SKU dla danego EAN</Grid>
                             </Grid>}
                         {sku.allOffersBySKU.map((offer, index) => (
-                            <Grid container spacing={2} key={index} sx={{ backgroundColor: 'white', color: 'black', marginY: 1, paddingBottom: 2, display: 'flex', alignItems: 'center' }}>
+                            <Grid container spacing={1} key={index} sx={{ backgroundColor: 'white', color: 'black', marginY: 1, paddingBottom: 2, display: 'flex', alignItems: 'center' }}>
                                 <Grid item xs={3}>
                                     {offer.nazwaTowaru}
                                 </Grid>
-                                <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'right' }}>
+                                <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'left' }}>
                                     {offer.sku}
                                 </Grid>
-                                <Grid item xs={2}>
+                                <Grid item xs={1}>
                                     <TextField type="number" onChange={(e) => changeQuantity(e, ind, index)} variant="outlined" value={offer.skuQuantity}
                                     />
                                 </Grid>
-                                <Grid item xs={2}>
+                                <Grid item xs={1}>
                                     {checkPrice(offer.ostatniaCenaZakupu, sku.supplierPrice)}
                                 </Grid>
-                                <Grid item xs={2}>
+                                <Grid item xs={1.5}>
                                     {offer.nazwaFlagi}
                                 </Grid>
-                                <Grid item xs={1}>
-                                    {offer.komentarzFlagi ? checkNumberInFlag(offer.komentarzFlagi) : null}
+                                <Grid item xs={2} sx={{ fontSize: 14, color: 'gray' }}>
+                                    {offer.komentarzFlagi && <TextField
+                                        value={offer.komentarzFlagi || ""}
+                                        onChange={(e) => {
+                                            changeFlagComment(e.target.value, ind, index);
+                                        }}
+                                        onBlur={(e) => {
+                                            changeFlagCommentInSubiekt(e.target.value, offer.nazwaFlagi, offer.subiektDBTowarId);
+                                        }}
+                                        variant="outlined"
+                                        size="small"
+                                    />
+                                    }
+                                </Grid>
+                                <Grid item xs={1.5} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 1 }}>
+                                    {offer.nazwaFlagi === "03 Zamówione u dostawcy" && (
+                                        <Button
+                                            size="small"
+                                            variant="outlined"
+                                            color="error"
+                                            onClick={() => deleteFlag(ind, index, offer.komentarzFlagi || "", offer.nazwaFlagi, offer.subiektDBTowarId)}
+                                        >
+                                            Usuń Flagę
+                                        </Button>
+                                    )}
+                                    {/* {offer.komentarzFlagi && (
+                                        <Button
+                                            size="small"
+                                            variant="outlined"
+                                            color="primary"
+                                            onClick={() => console.log("Edytuj flagę")}
+                                        >
+                                            Edytuj FL
+                                        </Button>
+                                    )} */}
                                 </Grid>
                                 {!offer.sklepInternetowy && <Grid container spacing={2} sx={{ backgroundColor: 'white', color: 'black', marginY: 1, paddingBottom: 0 }}>
                                     <Grid item sx={{ color: 'violet', fontWeight: 'bold' }}> Brak Sklepu Internetowego</Grid>
@@ -323,7 +396,7 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                                 checked={offer.checked}
                                                 color="primary"
                                                 onChange={(e) => {
-                                                   changeCheckedToStartAllegroOffer(e.target.checked, ind, index); // ind - eanIndex, index - skuIndex
+                                                    changeCheckedToStartAllegroOffer(e.target.checked, ind, index); // ind - eanIndex, index - skuIndex
                                                 }}
                                             />
                                         </Grid>
