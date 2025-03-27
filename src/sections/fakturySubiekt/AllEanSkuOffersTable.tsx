@@ -7,6 +7,7 @@ import { TAllOffersBySkuAndAllegro, TEppFile } from "src/types/subiektAllegro";
 
 import companies from "./data/companies";
 import formatDate from "./helpers/formatDate";
+import FlagCommentEditor from "./FlagCommentEditor";
 import { generateEppFile } from "./helpers/generateEppFile";
 
 
@@ -260,11 +261,11 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
 
         setOffersBySkuAndAllegro(updatedOffersBySkuAndAllegro);
 
-       
+
     }
 
     const changeFlagCommentInSubiekt = async (comment: string, nazwaFlagi: string, towarSubiektDbId: number) => {
-        
+
         const response = await axios.post(`http://localhost:5005/subiekt/changeFlagComment`, {
             towarSubiektDbId,
             nazwaFlagi,
@@ -281,7 +282,7 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
 
 
     return (
-        <Container>
+        <Container maxWidth="xl">
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2} marginY={4} sx={{ backgroundColor: 'black', color: 'white', paddingBottom: 2 }}>
                     <Grid item xs={1}>
@@ -333,7 +334,7 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                             </Grid>}
                         {sku.allOffersBySKU.map((offer, index) => (
                             <Grid container spacing={1} key={index} sx={{ backgroundColor: 'white', color: 'black', marginY: 1, paddingBottom: 2, display: 'flex', alignItems: 'center' }}>
-                                <Grid item xs={3}>
+                                <Grid item xs={3.5}>
                                     {offer.nazwaTowaru}
                                 </Grid>
                                 <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'left' }}>
@@ -343,33 +344,30 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                     <TextField type="number" onChange={(e) => changeQuantity(e, ind, index)} variant="outlined" value={offer.skuQuantity}
                                     />
                                 </Grid>
-                                <Grid item xs={1}>
+                                <Grid item xs={1.5}>
                                     {checkPrice(offer.ostatniaCenaZakupu, sku.supplierPrice)}
                                 </Grid>
-                                <Grid item xs={1.5}>
+                                <Grid item xs={2} sx={{fontSize: '10pt'}}>
                                     {offer.nazwaFlagi}
                                 </Grid>
-                                <Grid item xs={2} sx={{ fontSize: 14, color: 'gray' }}>
-                                    {offer.komentarzFlagi && <TextField
-                                        value={offer.komentarzFlagi || ""}
-                                        onChange={(e) => {
-                                            changeFlagComment(e.target.value, ind, index);
-                                        }}
-                                        onBlur={(e) => {
-                                            changeFlagCommentInSubiekt(e.target.value, offer.nazwaFlagi, offer.subiektDBTowarId);
-                                        }}
-                                        variant="outlined"
-                                        size="small"
-                                    />
-                                    }
-                                </Grid>
-                                <Grid item xs={1.5} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 1 }}>
+                                <Grid item xs={2} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 1 }}>
+                                    {offer.komentarzFlagi && <FlagCommentEditor
+                                        offer={offer}
+                                        ind={ind}
+                                        index={index}
+                                        changeFlagComment={changeFlagComment}
+                                        changeFlagCommentInSubiekt={changeFlagCommentInSubiekt}
+                                    />}
                                     {offer.nazwaFlagi === "03 Zamówione u dostawcy" && (
                                         <Button
                                             size="small"
                                             variant="outlined"
                                             color="error"
-                                            onClick={() => deleteFlag(ind, index, offer.komentarzFlagi || "", offer.nazwaFlagi, offer.subiektDBTowarId)}
+                                            onClick={() => {
+                                                if (window.confirm("Na pewno usunąć flagę?")) {
+                                                    deleteFlag(ind, index, offer.komentarzFlagi || "", offer.nazwaFlagi, offer.subiektDBTowarId);
+                                                }
+                                            }}
                                         >
                                             Usuń Flagę
                                         </Button>
