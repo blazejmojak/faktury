@@ -266,13 +266,23 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
 
     const changeFlagCommentInSubiekt = async (comment: string, nazwaFlagi: string, towarSubiektDbId: number) => {
 
-        const response = await axios.post(`http://localhost:5005/subiekt/changeFlagComment`, {
+        try {
+            const response = await axios.post(`http://localhost:5005/subiekt/changeFlagComment`, {
             towarSubiektDbId,
             nazwaFlagi,
             comment
-        });
+            });
 
-        console.log(response);
+            if (response.status === 200) {
+            console.log("Flag comment changed successfully in Subiekt database.");
+            } else {
+            console.error("Error changing flag comment in Subiekt database:", response.statusText);
+            alert("Błąd - flaga nie zmieniona - błąd SFERY");
+            }
+        } catch (error) {
+            console.error("An error occurred while changing the flag comment:", error);
+            alert("Wystąpił błąd podczas zmiany flagi w Subiekcie.");
+        }
     }
 
     const deleteFlag = async (eanIndex: number, skuIndex: number, comment: string, nazwaFlagi: string, towarSubiektDbId: number) => {
