@@ -436,6 +436,10 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                         </Button>
                                     )} */}
                                 </Grid>
+                                <Grid sx={{color: 'gray'}}>
+                                    Stan magazynowy: {offer.stanMagazynowy} <br />
+                                    Stan minimalny: {offer.stanMinimalny} <br />
+                                </Grid>
                                 <Grid sx={{ color: 'green', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', width: '100%', marginTop: '20px' }}>
                                     {offer.cenaSpecjalna && <PriceEditor priceType="cenaSpecjalna" eanIndex={ind} skuIndex={index} price={offer.cenaSpecjalna} changePrice={changePrice} />}
                                     {offer.cenaHurtowa && <PriceEditor priceType="cenaHurtowa" eanIndex={ind} skuIndex={index} price={offer.cenaHurtowa} changePrice={changePrice} />}

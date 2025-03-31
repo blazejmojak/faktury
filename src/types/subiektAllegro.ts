@@ -11,6 +11,8 @@ export interface TAllOffersBySku {
     sku: string;
     subiektDBTowarId: number;
     nazwaTowaru: string;
+    stanMagazynowy: number,
+    stanMinimalny: number,
     nazwaFlagi: string;
     komentarzFlagi: string | null;
     sklepInternetowy: boolean;
