@@ -17,6 +17,10 @@ export interface TAllOffersBySku {
     ostatniaCenaZakupu: number;
     grupaTowarowaNazwa: string;
     skuQuantity?: number;
+    cenaDetaliczna: number;
+    cenaHurtowa: number;
+    cenaSpecjalna: number;
+    cenaAllegro: number;
     offers: TAllOffers[]
 }
 

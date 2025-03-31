@@ -5,6 +5,7 @@ import { Box, Grid, Container, TextField, Button, Checkbox } from "@mui/material
 
 import { TAllOffersBySkuAndAllegro, TEppFile } from "src/types/subiektAllegro";
 
+import PriceEditor from "./PriceEditor";
 import companies from "./data/companies";
 import formatDate from "./helpers/formatDate";
 import FlagCommentEditor from "./FlagCommentEditor";
@@ -302,6 +303,28 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
         // changeFlagCommentInSubiekt("", "", towarSubiektDbId);
     }
 
+    const changePrice = async (priceType: string, price: number, eanIndex: number, skuIndex: number) => {
+
+        const updatedOffersBySkuAndAllegro = offersBySkuAndAllegro.map((ean, currentEanIndex) => {
+            if (currentEanIndex !== eanIndex) return ean;
+
+            return {
+                ...ean,
+                allOffersBySKU: ean.allOffersBySKU.map((sku, currentSkuIndex) => {
+                    if (currentSkuIndex !== skuIndex) return sku;
+                    return {
+                        ...sku,
+                        [priceType]: price,
+                    };
+                })
+            };
+        });
+
+        setOffersBySkuAndAllegro(updatedOffersBySkuAndAllegro);
+
+
+    }
+
 
     return (
         <Container maxWidth="xl">
@@ -406,6 +429,14 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                             Edytuj FL
                                         </Button>
                                     )} */}
+                                </Grid>
+                                <Grid sx={{color: 'green'}}>
+                                    {offer.cenaSpecjalna && <PriceEditor priceType="cenaSpecjalna" eanIndex={ind} skuIndex={index} price={offer.cenaSpecjalna} changePrice={changePrice} />}
+                                    <Box>Cena Specjalna: {offer.cenaSpecjalna ? offer.cenaSpecjalna : "Brak"} <Button variant="text" color="secondary">Edytuj</Button></Box>
+                                    <Box>Cena Hurtowa: {offer.cenaSpecjalna ? offer.cenaHurtowa : "Brak"} <Button variant="text" color="secondary">Edytuj</Button></Box>
+                                    <Box>Cena Detaliczna: {offer.cenaSpecjalna ? offer.cenaDetaliczna : "Brak"} <Button variant="text" color="secondary">Edytuj</Button></Box>
+                                    <Box>Cena Allegro: {offer.cenaSpecjalna ? offer.cenaAllegro : "Brak"} <Button variant="text" color="secondary">Edytuj</Button></Box>
+
                                 </Grid>
                                 {!offer.sklepInternetowy && <Grid container spacing={2} sx={{ backgroundColor: 'white', color: 'black', marginY: 1, paddingBottom: 0 }}>
                                     <Grid item sx={{ color: 'violet', fontWeight: 'bold' }}> Brak Sklepu Internetowego</Grid>
