@@ -264,11 +264,11 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                 console.log("Flaga zmieniona pomyślnie w Subiekcie.");
                 setOffersBySkuAndAllegro(updatedOffersBySkuAndAllegro);
             } else {
-                console.error("Błąd podczas zmiany flagi w Subiekcie.");
+                console.error("Błąd podczas zmiany flagi w Subiekcie (Błąd SFERA).");
             }
         } catch (error) {
             console.error("Error updating flag comment:", error);
-            alert("Wystąpił błąd podczas zmiany flagi.");
+            alert("Wystąpił błąd podczas zmiany flagi. Błąd SFERA!");
         }
 
 
@@ -292,7 +292,7 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
 
         } catch (error) {
             console.error("An error occurred while changing the flag comment:", error);
-            alert("Wystąpił błąd podczas zmiany flagi w Subiekcie.");
+            alert("Wystąpił błąd podczas zmiany flagi w Subiekcie. Błąd SFERA!");
             return 'error';
         }
     }
