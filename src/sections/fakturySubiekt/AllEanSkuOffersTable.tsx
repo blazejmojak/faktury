@@ -432,11 +432,9 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                 </Grid>
                                 <Grid sx={{color: 'green'}}>
                                     {offer.cenaSpecjalna && <PriceEditor priceType="cenaSpecjalna" eanIndex={ind} skuIndex={index} price={offer.cenaSpecjalna} changePrice={changePrice} />}
-                                    <Box>Cena Specjalna: {offer.cenaSpecjalna ? offer.cenaSpecjalna : "Brak"} <Button variant="text" color="secondary">Edytuj</Button></Box>
-                                    <Box>Cena Hurtowa: {offer.cenaSpecjalna ? offer.cenaHurtowa : "Brak"} <Button variant="text" color="secondary">Edytuj</Button></Box>
-                                    <Box>Cena Detaliczna: {offer.cenaSpecjalna ? offer.cenaDetaliczna : "Brak"} <Button variant="text" color="secondary">Edytuj</Button></Box>
-                                    <Box>Cena Allegro: {offer.cenaSpecjalna ? offer.cenaAllegro : "Brak"} <Button variant="text" color="secondary">Edytuj</Button></Box>
-
+                                    {offer.cenaHurtowa && <PriceEditor priceType="cenaHurtowa" eanIndex={ind} skuIndex={index} price={offer.cenaHurtowa} changePrice={changePrice} />}
+                                    {offer.cenaDetaliczna && <PriceEditor priceType="cenaDetaliczna" eanIndex={ind} skuIndex={index} price={offer.cenaDetaliczna} changePrice={changePrice} />}
+                                    {offer.cenaAllegro && <PriceEditor priceType="cenaAllegro" eanIndex={ind} skuIndex={index} price={offer.cenaAllegro} changePrice={changePrice} />}
                                 </Grid>
                                 {!offer.sklepInternetowy && <Grid container spacing={2} sx={{ backgroundColor: 'white', color: 'black', marginY: 1, paddingBottom: 0 }}>
                                     <Grid item sx={{ color: 'violet', fontWeight: 'bold' }}> Brak Sklepu Internetowego</Grid>
