@@ -113,6 +113,7 @@ export default function TestView() {
             return {
               checked: false,
               supplierEan: skuItem.ean,
+              supplierName: skuItem.name,
               orderedQuantity: skuItem.quantity,
               supplierPrice: skuItem.price,
               allOffersBySKU: []
@@ -123,6 +124,7 @@ export default function TestView() {
           return {
             checked: skuData.length > 0,
             supplierEan: skuItem.ean,
+            supplierName: skuItem.name,
             orderedQuantity: skuItem.quantity,
             supplierPrice: skuItem.price,
             allOffersBySKU: skuData

@@ -4,6 +4,7 @@ console.log(companies);
 
 type TItems = {
     ean: string;
+    name: string;
     quantity: string;
     price: string;
 };
@@ -58,6 +59,7 @@ export const readXMLFile = (
                 doc.querySelectorAll("Pozycje Pozycja")
             ).map((item) => ({
                 ean: item.querySelector("EAN")?.textContent || "",
+                name: item.querySelector("Nazwa")?.textContent || "",
                 quantity: item.querySelector("Ilosc")?.textContent || "",
                 price: item.querySelector("Cena_netto")?.textContent || "",
             }));
@@ -109,6 +111,7 @@ export const readXMLFile = (
                 doc.querySelectorAll("Invoice-Lines Line Line-Item")
             ).map((item) => ({
                 ean: item.querySelector("EAN")?.textContent || "brak",
+                name: item.querySelector("ItemDescription")?.textContent || "",
                 quantity:
                     item.querySelector("InvoiceQuantity")?.textContent || "",
                 price:
@@ -130,8 +133,8 @@ export const readXMLFile = (
             const items = Array.from(
                 doc.querySelectorAll("PozycjaDokumentu")
             ).map((item) => ({
-                ean:
-                    item.querySelector("Towar Kod")?.textContent || "",
+                ean: item.querySelector("Towar Kod")?.textContent || "",
+                name: item.querySelector("Towar Nazwa Opis")?.textContent || "",
                 quantity: item.querySelector("Ilosc")?.textContent || "",
                 price: item.querySelector("Cena")?.textContent || "",
             }));
@@ -149,6 +152,7 @@ export const readXMLFile = (
                 doc.querySelectorAll("POZYCJE POZYCJA")
             ).map((item) => ({
                 ean: item.getAttribute("SYMBOL") || "",
+                name: item.getAttribute("NAZWA_TOWARU") || "",
                 quantity: item.getAttribute("ILOSC") || "",
                 price: item.getAttribute("CENA_PO_UPUSCIE") || "",
             }));
@@ -166,6 +170,7 @@ export const readXMLFile = (
                 doc.querySelectorAll("Fa FaWiersz")
             ).map((item) => ({
                 ean: item.querySelector("Indeks")?.textContent || "",
+                name: item.querySelector("P_7")?.textContent || "",
                 quantity: item.querySelector("P_8B")?.textContent || "",
                 price: item.querySelector("P_9B")?.textContent
                     ? (parseFloat(item.querySelector("P_9B")?.textContent || "0") / 1.23).toFixed(2)

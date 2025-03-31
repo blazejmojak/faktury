@@ -336,13 +336,16 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                     <Grid item xs={1}>
                         Lp.
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={2.5}>
                         EAN Dostawcy
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={4.5}>
+                        Nazwa dostawcy
+                    </Grid>
+                    <Grid item xs={1.5}>
                         Ilość
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={1.5}>
                         Cena zakupu
                     </Grid>
                 </Grid>
@@ -360,13 +363,16 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                             <Grid item xs={1}>
                                 {ind + 1}
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={2.5}>
                                 {sku.supplierEan}
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={4.5}>
+                                {sku.supplierName}
+                            </Grid>
+                            <Grid item xs={1.5}>
                                 {Number(sku.orderedQuantity.replace(',', '.'))}
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={1.5}>
                                 {/* {parseFloat(sku.supplierPrice.replace(',', '.')).toFixed(2)} */}
                                 {changeNumberPrice(sku.supplierPrice)}
                             </Grid>
@@ -430,7 +436,7 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                         </Button>
                                     )} */}
                                 </Grid>
-                                <Grid sx={{color: 'green'}}>
+                                <Grid sx={{ color: 'green', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', width: '100%', marginTop: '20px' }}>
                                     {offer.cenaSpecjalna && <PriceEditor priceType="cenaSpecjalna" eanIndex={ind} skuIndex={index} price={offer.cenaSpecjalna} changePrice={changePrice} />}
                                     {offer.cenaHurtowa && <PriceEditor priceType="cenaHurtowa" eanIndex={ind} skuIndex={index} price={offer.cenaHurtowa} changePrice={changePrice} />}
                                     {offer.cenaDetaliczna && <PriceEditor priceType="cenaDetaliczna" eanIndex={ind} skuIndex={index} price={offer.cenaDetaliczna} changePrice={changePrice} />}

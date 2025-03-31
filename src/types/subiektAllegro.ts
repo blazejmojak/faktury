@@ -28,6 +28,7 @@ export interface TAllOffersBySku {
 export interface TAllOffersBySkuAndAllegro {
     checked: boolean;  /* empty in subiekt */
     supplierEan: string;
+    supplierName: string;
     orderedQuantity: string;
     supplierPrice: string;
     quantityError?: string;
