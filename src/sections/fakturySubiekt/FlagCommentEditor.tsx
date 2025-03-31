@@ -10,7 +10,7 @@ interface FlagCommentEditorProps {
   offer: TAllOffersBySku;
   ind: number;
   index: number;
-  changeFlagComment: (comment: string, ind: number, index: number) => void;
+  changeFlagComment: (comment: string, ind: number, index: number, nazwaFlagi: string, towarIdDb: number) => void;
   changeFlagCommentInSubiekt: (comment: string, nazwaFlagi: string, subiektDBTowarId: number) => void;
 }
 
@@ -22,8 +22,8 @@ const FlagCommentEditor: React.FC<FlagCommentEditorProps> = ({ offer, ind, index
 
   const handleAcceptClick = () => {
     setIsEditing(false);
-    changeFlagComment(tempComment, ind, index);
-    changeFlagCommentInSubiekt(tempComment, offer.nazwaFlagi, offer.subiektDBTowarId);
+    changeFlagComment(tempComment, ind, index, offer.nazwaFlagi, offer.subiektDBTowarId);
+    // changeFlagCommentInSubiekt(tempComment, offer.nazwaFlagi, offer.subiektDBTowarId);
   };
 
   return (

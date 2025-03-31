@@ -241,25 +241,36 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
 
     };
 
-    const changeFlagComment = async (comment: string, eanIndex: number, skuIndex: number, deleteFlagName = false) => {
+    const changeFlagComment = async (comment: string, eanIndex: number, skuIndex: number, deleteFlagName = false, nazwaFlagi: string, towarSubiektDbId: number) => {
+        try {
+            const updatedOffersBySkuAndAllegro = offersBySkuAndAllegro.map((ean, currentEanIndex) => {
+                if (currentEanIndex !== eanIndex) return ean;
 
-        const updatedOffersBySkuAndAllegro = offersBySkuAndAllegro.map((ean, currentEanIndex) => {
-            if (currentEanIndex !== eanIndex) return ean;
+                return {
+                    ...ean,
+                    allOffersBySKU: ean.allOffersBySKU.map((sku, currentSkuIndex) => {
+                        if (currentSkuIndex !== skuIndex) return sku;
+                        return {
+                            ...sku,
+                            komentarzFlagi: comment,
+                            nazwaFlagi: deleteFlagName ? "" : sku.nazwaFlagi
+                        };
+                    })
+                };
+            });
 
-            return {
-                ...ean,
-                allOffersBySKU: ean.allOffersBySKU.map((sku, currentSkuIndex) => {
-                    if (currentSkuIndex !== skuIndex) return sku;
-                    return {
-                        ...sku,
-                        komentarzFlagi: comment,
-                        nazwaFlagi: deleteFlagName ? "" : sku.nazwaFlagi
-                    };
-                })
-            };
-        });
+            const changeFlag = await changeFlagCommentInSubiekt(comment, nazwaFlagi, towarSubiektDbId);
+            if (changeFlag === 'ok') {
+                console.log("Flaga zmieniona pomyślnie w Subiekcie.");
+                setOffersBySkuAndAllegro(updatedOffersBySkuAndAllegro);
+            } else {
+                console.error("Błąd podczas zmiany flagi w Subiekcie.");
+            }
+        } catch (error) {
+            console.error("Error updating flag comment:", error);
+            alert("Wystąpił błąd podczas zmiany flagi.");
+        }
 
-        setOffersBySkuAndAllegro(updatedOffersBySkuAndAllegro);
 
 
     }
@@ -268,16 +279,16 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
 
         try {
             const response = await axios.post(`http://localhost:5005/subiekt/changeFlagComment`, {
-            towarSubiektDbId,
-            nazwaFlagi,
-            comment
+                towarSubiektDbId,
+                nazwaFlagi,
+                comment
             });
 
             if (response.status === 200) {
-            console.log("Flag comment changed successfully in Subiekt database.");
+                return 'ok';
             } else {
-            console.error("Error changing flag comment in Subiekt database:", response.statusText);
-            alert("Błąd - flaga nie zmieniona - błąd SFERY");
+                console.error("Error changing flag comment in Subiekt database:", response.statusText);
+                return 'error';
             }
         } catch (error) {
             console.error("An error occurred while changing the flag comment:", error);
@@ -286,8 +297,8 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
     }
 
     const deleteFlag = async (eanIndex: number, skuIndex: number, comment: string, nazwaFlagi: string, towarSubiektDbId: number) => {
-        changeFlagComment("", eanIndex, skuIndex, true);
-        changeFlagCommentInSubiekt("", "", towarSubiektDbId);
+        changeFlagComment("", eanIndex, skuIndex, true, nazwaFlagi, towarSubiektDbId);
+        // changeFlagCommentInSubiekt("", "", towarSubiektDbId);
     }
 
 
@@ -357,7 +368,7 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                 <Grid item xs={1.5}>
                                     {checkPrice(offer.ostatniaCenaZakupu, sku.supplierPrice)}
                                 </Grid>
-                                <Grid item xs={2} sx={{fontSize: '10pt'}}>
+                                <Grid item xs={2} sx={{ fontSize: '10pt' }}>
                                     {offer.nazwaFlagi}
                                 </Grid>
                                 <Grid item xs={2} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 1 }}>
@@ -365,7 +376,9 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                         offer={offer}
                                         ind={ind}
                                         index={index}
-                                        changeFlagComment={changeFlagComment}
+                                        changeFlagComment={(comment, ind, index, nazwaFlagi, towarIdDb) =>
+                                            changeFlagComment(comment, ind, index, false, nazwaFlagi, towarIdDb)
+                                        }
                                         changeFlagCommentInSubiekt={changeFlagCommentInSubiekt}
                                     />}
                                     {offer.nazwaFlagi === "03 Zamówione u dostawcy" && (
