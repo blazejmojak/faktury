@@ -23,6 +23,7 @@ const FlagCommentEditor: React.FC<FlagCommentEditorProps> = ({ offer, ind, index
   const handleAcceptClick = () => {
     setIsEditing(false);
     changeFlagComment(tempComment, ind, index, offer.nazwaFlagi, offer.subiektDBTowarId);
+    setTempComment(offer.komentarzFlagi || "");
     // changeFlagCommentInSubiekt(tempComment, offer.nazwaFlagi, offer.subiektDBTowarId);
   };
 

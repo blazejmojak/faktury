@@ -241,7 +241,7 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
 
     };
 
-    const changeFlagComment = async (comment: string, eanIndex: number, skuIndex: number, deleteFlagName = false, nazwaFlagi: string, towarSubiektDbId: number) => {
+    const changeFlagComment = async (comment: string, eanIndex: number, skuIndex: number, nazwaFlagi: string, towarSubiektDbId: number, deleteFlagName = false) => {
         try {
             const updatedOffersBySkuAndAllegro = offersBySkuAndAllegro.map((ean, currentEanIndex) => {
                 if (currentEanIndex !== eanIndex) return ean;
@@ -286,18 +286,19 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
 
             if (response.status === 200) {
                 return 'ok';
-            } else {
-                console.error("Error changing flag comment in Subiekt database:", response.statusText);
-                return 'error';
             }
+            console.error("Error changing flag comment in Subiekt database:", response.statusText);
+            return 'error';
+
         } catch (error) {
             console.error("An error occurred while changing the flag comment:", error);
             alert("Wystąpił błąd podczas zmiany flagi w Subiekcie.");
+            return 'error';
         }
     }
 
     const deleteFlag = async (eanIndex: number, skuIndex: number, comment: string, nazwaFlagi: string, towarSubiektDbId: number) => {
-        changeFlagComment("", eanIndex, skuIndex, true, nazwaFlagi, towarSubiektDbId);
+        changeFlagComment("", eanIndex, skuIndex, nazwaFlagi, towarSubiektDbId, true);
         // changeFlagCommentInSubiekt("", "", towarSubiektDbId);
     }
 
@@ -376,8 +377,8 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                         offer={offer}
                                         ind={ind}
                                         index={index}
-                                        changeFlagComment={(comment, ind, index, nazwaFlagi, towarIdDb) =>
-                                            changeFlagComment(comment, ind, index, false, nazwaFlagi, towarIdDb)
+                                        changeFlagComment={(comment, eanIndex, skuIndex, nazwaFlagi, towarIdDb) =>
+                                            changeFlagComment(comment, eanIndex, skuIndex, nazwaFlagi, towarIdDb, false)
                                         }
                                         changeFlagCommentInSubiekt={changeFlagCommentInSubiekt}
                                     />}
