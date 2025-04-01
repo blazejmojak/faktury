@@ -26,10 +26,10 @@ const checkPrice = (lastPrice: number, supplierPrice: string) => {
     let color = 'black';
     let fontWeight = 'normal';
 
-    if (lastPrice / formattedSupplierPrice < 0.9) {
+    if (lastPrice / formattedSupplierPrice < 0.95) {
         color = 'red';
         fontWeight = 'bold';
-    } else if (lastPrice / formattedSupplierPrice > 1.1) {
+    } else if (lastPrice / formattedSupplierPrice > 1.05) {
         color = 'green';
         fontWeight = 'bold';
     }
