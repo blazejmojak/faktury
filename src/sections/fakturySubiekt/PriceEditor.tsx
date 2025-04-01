@@ -3,14 +3,15 @@ import { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 
 type PriceEditorProps = {
+    sku: string;
     priceType: string;
     eanIndex: number;
     skuIndex: number;
     price: number;
-    changePrice: (priceType: string, price: number, eanIndex: number, skuIndex: number) => Promise<void>;
+    changePrice: (sku: string, priceType: string, price: number, eanIndex: number, skuIndex: number) => Promise<void>;
 };
 
-const PriceEditor: React.FC<PriceEditorProps> = ({ priceType, eanIndex, skuIndex, price, changePrice }: PriceEditorProps) => {
+const PriceEditor: React.FC<PriceEditorProps> = ({ sku, priceType, eanIndex, skuIndex, price, changePrice }: PriceEditorProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [tempPrice, setTempPrice] = useState<string>(price.toString());
 
@@ -21,7 +22,7 @@ const PriceEditor: React.FC<PriceEditorProps> = ({ priceType, eanIndex, skuIndex
         setIsEditing(false);
         console.log('temp price is: ', tempPrice);
 
-        changePrice(priceType, parseFloat(tempPrice), eanIndex, skuIndex)
+        changePrice(sku, priceType, parseFloat(tempPrice), eanIndex, skuIndex)
             .then(() => {
                 setTempPrice((prev) => (parseFloat(prev) || 0).toFixed(2));
             }).catch((error: any) => {

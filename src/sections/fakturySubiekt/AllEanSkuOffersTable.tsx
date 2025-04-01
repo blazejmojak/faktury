@@ -303,25 +303,41 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
         // changeFlagCommentInSubiekt("", "", towarSubiektDbId);
     }
 
-    const changePrice = async (priceType: string, price: number, eanIndex: number, skuIndex: number) => {
+    const changePrice = async (sku: string, priceType: string, price: number, eanIndex: number, skuIndex: number) => {
+        try {
 
-        const updatedOffersBySkuAndAllegro = offersBySkuAndAllegro.map((ean, currentEanIndex) => {
-            if (currentEanIndex !== eanIndex) return ean;
+            const response = await axios.post(`http://localhost:5005/subiekt/changePrice`, {
+                sku,
+                priceType,
+                price
+            });
 
-            return {
-                ...ean,
-                allOffersBySKU: ean.allOffersBySKU.map((sku, currentSkuIndex) => {
-                    if (currentSkuIndex !== skuIndex) return sku;
-                    return {
-                        ...sku,
-                        [priceType]: price,
-                    };
-                })
-            };
-        });
+            if (response.status !== 200) {
+                console.error("Error changing price in Subiekt database:", response.statusText);
+                alert("Błąd zmiany ceny w Subiekcie. Błąd SFERA!");
+                return;
+            }
 
-        setOffersBySkuAndAllegro(updatedOffersBySkuAndAllegro);
+            const updatedOffersBySkuAndAllegro = offersBySkuAndAllegro.map((ean, currentEanIndex) => {
+                if (currentEanIndex !== eanIndex) return ean;
 
+                return {
+                    ...ean,
+                    allOffersBySKU: ean.allOffersBySKU.map((productSku, currentSkuIndex) => {
+                        if (currentSkuIndex !== skuIndex) return productSku;
+                        return {
+                            ...productSku,
+                            [priceType]: price,
+                        };
+                    })
+                };
+            });
+
+            setOffersBySkuAndAllegro(updatedOffersBySkuAndAllegro);
+        } catch (error) {
+            console.error("Error changing price:", error);
+            alert("Wystąpił błąd podczas zmiany ceny. Błąd SFERA!");
+        }
 
     }
 
@@ -435,15 +451,15 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                         </Button>
                                     )} */}
                                 </Grid>
-                                <Grid sx={{color: 'gray'}}>
+                                <Grid sx={{ color: 'gray' }}>
                                     Stan magazynowy: {offer.stanMagazynowy} <br />
                                     Stan minimalny: {offer.stanMinimalny} <br />
                                 </Grid>
                                 <Grid sx={{ color: 'green', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', width: '100%', marginTop: '20px' }}>
-                                    {offer.cenaSpecjalna && <PriceEditor priceType="cenaSpecjalna" eanIndex={ind} skuIndex={index} price={offer.cenaSpecjalna} changePrice={changePrice} />}
-                                    {offer.cenaHurtowa && <PriceEditor priceType="cenaHurtowa" eanIndex={ind} skuIndex={index} price={offer.cenaHurtowa} changePrice={changePrice} />}
-                                    {offer.cenaDetaliczna && <PriceEditor priceType="cenaDetaliczna" eanIndex={ind} skuIndex={index} price={offer.cenaDetaliczna} changePrice={changePrice} />}
-                                    {offer.cenaAllegro && <PriceEditor priceType="cenaAllegro" eanIndex={ind} skuIndex={index} price={offer.cenaAllegro} changePrice={changePrice} />}
+                                    {offer.cenaSpecjalna && <PriceEditor sku={offer.sku} priceType="cenaSpecjalna" eanIndex={ind} skuIndex={index} price={offer.cenaSpecjalna} changePrice={changePrice} />}
+                                    {offer.cenaHurtowa && <PriceEditor sku={offer.sku} priceType="cenaHurtowa" eanIndex={ind} skuIndex={index} price={offer.cenaHurtowa} changePrice={changePrice} />}
+                                    {offer.cenaDetaliczna && <PriceEditor sku={offer.sku} priceType="cenaDetaliczna" eanIndex={ind} skuIndex={index} price={offer.cenaDetaliczna} changePrice={changePrice} />}
+                                    {offer.cenaAllegro && <PriceEditor sku={offer.sku} priceType="cenaAllegro" eanIndex={ind} skuIndex={index} price={offer.cenaAllegro} changePrice={changePrice} />}
                                 </Grid>
                                 {!offer.sklepInternetowy && <Grid container spacing={2} sx={{ backgroundColor: 'white', color: 'black', marginY: 1, paddingBottom: 0 }}>
                                     <Grid item sx={{ color: 'violet', fontWeight: 'bold' }}> Brak Sklepu Internetowego</Grid>
