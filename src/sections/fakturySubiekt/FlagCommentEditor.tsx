@@ -11,10 +11,9 @@ interface FlagCommentEditorProps {
   ind: number;
   index: number;
   changeFlagComment: (comment: string, ind: number, index: number, nazwaFlagi: string, towarIdDb: number) => void;
-  changeFlagCommentInSubiekt: (comment: string, nazwaFlagi: string, subiektDBTowarId: number) => void;
 }
 
-const FlagCommentEditor: React.FC<FlagCommentEditorProps> = ({ offer, ind, index, changeFlagComment, changeFlagCommentInSubiekt }) => {
+const FlagCommentEditor: React.FC<FlagCommentEditorProps> = ({ offer, ind, index, changeFlagComment }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [tempComment, setTempComment] = useState(offer.komentarzFlagi || "");
 
@@ -23,7 +22,7 @@ const FlagCommentEditor: React.FC<FlagCommentEditorProps> = ({ offer, ind, index
   const handleAcceptClick = () => {
     setIsEditing(false);
     changeFlagComment(tempComment, ind, index, offer.nazwaFlagi, offer.subiektDBTowarId);
-    setTempComment(offer.komentarzFlagi || "");
+    // setTempComment(tempComment || "");
     // changeFlagCommentInSubiekt(tempComment, offer.nazwaFlagi, offer.subiektDBTowarId);
   };
 

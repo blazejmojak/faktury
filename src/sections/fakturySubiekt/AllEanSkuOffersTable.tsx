@@ -406,10 +406,7 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                         offer={offer}
                                         ind={ind}
                                         index={index}
-                                        changeFlagComment={(comment, eanIndex, skuIndex, nazwaFlagi, towarIdDb) =>
-                                            changeFlagComment(comment, eanIndex, skuIndex, nazwaFlagi, towarIdDb, false)
-                                        }
-                                        changeFlagCommentInSubiekt={changeFlagCommentInSubiekt}
+                                        changeFlagComment={changeFlagComment}
                                     />}
                                     {offer.nazwaFlagi === "03 Zamówione u dostawcy" && (
                                         <Button
@@ -418,7 +415,9 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                             color="error"
                                             onClick={() => {
                                                 if (window.confirm("Na pewno usunąć flagę?")) {
-                                                    deleteFlag(ind, index, offer.komentarzFlagi || "", offer.nazwaFlagi, offer.subiektDBTowarId);
+                                                    // deleteFlag(ind, index, offer.komentarzFlagi || "", offer.nazwaFlagi, offer.subiektDBTowarId);
+                                                    deleteFlag(ind, index, "", "", offer.subiektDBTowarId);
+
                                                 }
                                             }}
                                         >
