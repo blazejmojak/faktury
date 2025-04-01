@@ -34,8 +34,7 @@ const checkPrice = (lastPrice: number, supplierPrice: string) => {
         fontWeight = 'bold';
     }
 
-
-    return <span style={{ color, fontWeight }}> {lastPrice} </span>;
+    return <span style={{ color, fontWeight }}> {lastPrice ? lastPrice.toFixed(2) : 'BRAK'} </span>;
 }
 
 const extractNumber = (str: string) => {
