@@ -16,19 +16,24 @@ const PriceEditor: React.FC<PriceEditorProps> = ({ sku, priceType, eanIndex, sku
     const [tempPrice, setTempPrice] = useState<string>(price.toString());
 
 
-    const handleEditClick = () => setIsEditing(true);
-
+    const handleEditClick = () => {
+        setTempPrice(price.toFixed(2)); // Always reset to latest prop value
+        setIsEditing(true);
+    };
+    
     const handleAcceptClick = () => {
-        setIsEditing(false);
         console.log('temp price is: ', tempPrice);
 
         changePrice(sku, priceType, parseFloat(tempPrice), eanIndex, skuIndex)
             .then(() => {
                 setTempPrice((prev) => (parseFloat(prev) || 0).toFixed(2));
+                setIsEditing(false);
             }).catch((error: any) => {
+                // Revert tempPrice to the original price if the change fails
                 console.error("Error changing price:", error);
+                setTempPrice(price.toFixed(2));
             });
-       
+
     };
 
 
@@ -59,7 +64,11 @@ const PriceEditor: React.FC<PriceEditorProps> = ({ sku, priceType, eanIndex, sku
                     <Button size="small" variant="contained" onClick={handleAcceptClick}>
                         Akceptuj
                     </Button>
-                    <Button size="small" variant="text" color="error" onClick={() => setIsEditing(false)}>
+                    <Button size="small" variant="text" color="error"
+                        onClick={() => {
+                            setTempPrice(price.toFixed(2));
+                            setIsEditing(false);
+                        }}>
                         Anuluj
                     </Button>
                 </Box>
