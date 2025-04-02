@@ -8,6 +8,7 @@ import { TAllOffersBySkuAndAllegro, TEppFile } from "src/types/subiektAllegro";
 import PriceEditor from "./PriceEditor";
 import companies from "./data/companies";
 import formatDate from "./helpers/formatDate";
+import WarehouseEditor from "./WarehouseEditor";
 import FlagCommentEditor from "./FlagCommentEditor";
 import { generateEppFile } from "./helpers/generateEppFile";
 
@@ -340,6 +341,46 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
 
     }
 
+    const changeMinimumStock = async (
+        sku: string,
+        eanIndex: number,
+        skuIndex: number,
+        minimumStock: number
+    ) => {
+        try {
+            const response = await axios.post(`http://localhost:5005/subiekt/changeMinimumStock`, {
+                sku,
+                minimumStock
+            });
+    
+            if (response.status !== 200) {
+                console.error("Error changing minimum stock in Subiekt database:", response.statusText);
+                alert("Błąd zmiany stanu minimalnego w Subiekcie. Błąd SFERA!");
+                return;
+            }
+    
+            const updatedOffersBySkuAndAllegro = offersBySkuAndAllegro.map((ean, currentEanIndex) => {
+                if (currentEanIndex !== eanIndex) return ean;
+    
+                return {
+                    ...ean,
+                    allOffersBySKU: ean.allOffersBySKU.map((productSku, currentSkuIndex) => {
+                        if (currentSkuIndex !== skuIndex) return productSku;
+                        return {
+                            ...productSku,
+                            stanMinimalny: minimumStock
+                        };
+                    })
+                };
+            });
+    
+            setOffersBySkuAndAllegro(updatedOffersBySkuAndAllegro);
+        } catch (error) {
+            console.error("Error changing minimum stock:", error);
+            alert("Wystąpił błąd podczas zmiany stanu minimalnego. Błąd SFERA!");
+        }
+    };
+
 
     return (
         <Container maxWidth="xl">
@@ -450,9 +491,9 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                         </Button>
                                     )} */}
                                 </Grid>
-                                <Grid sx={{ color: 'gray' }}>
+                                <Grid sx={{ color: 'gray', fontSize: '14px' }}>
                                     Stan magazynowy: {offer.stanMagazynowy} <br />
-                                    Stan minimalny: {offer.stanMinimalny} <br />
+                                    {offer.stanMinimalny && <WarehouseEditor sku={offer.sku} eanIndex={ind} skuIndex={index} minimumStock={offer.stanMinimalny} changeMinimumStock={changeMinimumStock} />}
                                 </Grid>
                                 <Grid sx={{ color: 'green', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', width: '100%', marginTop: '20px' }}>
                                     {offer.cenaSpecjalna && <PriceEditor sku={offer.sku} priceType="cenaSpecjalna" eanIndex={ind} skuIndex={index} price={offer.cenaSpecjalna} changePrice={changePrice} />}
