@@ -49,7 +49,7 @@ export function useNavData() {
       // OVERVIEW
       // ----------------------------------------------------------------------
       {
-        subheader: 'wersja 1.0',
+        subheader: 'wersja 1.10',
         items: [
           { title: 'Dashboard', path: paths.dashboard.root, icon: ICONS.dashboard },
           // { title: 'GS1 Lista', path: paths.dashboard.gs1lista, icon: ICONS.tour },
