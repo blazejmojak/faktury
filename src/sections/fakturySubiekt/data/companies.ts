@@ -26,7 +26,7 @@ const companies = {
     },
     mcm: {
         name: "MCM SP. Z O.O.",
-        nip: "5492444218",
+        nip: "5492446708",
         symbol: "0000019430"
     },
     partner: {
