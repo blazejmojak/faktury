@@ -23,6 +23,7 @@ export interface TAllOffersBySku {
     cenaHurtowa: number;
     cenaSpecjalna: number;
     cenaAllegro: number;
+    SumaSprzedanychSztuk: number;
     offers: TAllOffers[]
 }
 

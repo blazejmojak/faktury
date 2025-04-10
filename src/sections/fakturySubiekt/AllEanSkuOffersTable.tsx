@@ -352,16 +352,16 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                 sku,
                 minimumStock
             });
-    
+
             if (response.status !== 200) {
                 console.error("Error changing minimum stock in Subiekt database:", response.statusText);
                 alert("Błąd zmiany stanu minimalnego w Subiekcie. Błąd SFERA!");
                 return;
             }
-    
+
             const updatedOffersBySkuAndAllegro = offersBySkuAndAllegro.map((ean, currentEanIndex) => {
                 if (currentEanIndex !== eanIndex) return ean;
-    
+
                 return {
                     ...ean,
                     allOffersBySKU: ean.allOffersBySKU.map((productSku, currentSkuIndex) => {
@@ -373,7 +373,7 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                     })
                 };
             });
-    
+
             setOffersBySkuAndAllegro(updatedOffersBySkuAndAllegro);
         } catch (error) {
             console.error("Error changing minimum stock:", error);
@@ -464,22 +464,25 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                         index={index}
                                         changeFlagComment={changeFlagComment}
                                     />}
-                                    {offer.nazwaFlagi === "03 Zamówione u dostawcy" && (
-                                        <Button
-                                            size="small"
-                                            variant="outlined"
-                                            color="error"
-                                            onClick={() => {
-                                                if (window.confirm("Na pewno usunąć flagę?")) {
-                                                    // deleteFlag(ind, index, offer.komentarzFlagi || "", offer.nazwaFlagi, offer.subiektDBTowarId);
-                                                    deleteFlag(ind, index, "", "", offer.subiektDBTowarId);
+                                    {/* {offer.nazwaFlagi === "03 Zamówione u dostawcy" && ( */}
+                                    {offer.nazwaFlagi && (
 
-                                                }
-                                            }}
-                                        >
-                                            Usuń Flagę
-                                        </Button>
-                                    )}
+                                            <Button
+                                                size="small"
+                                                variant="outlined"
+                                                color="error"
+                                                onClick={() => {
+                                                    if (window.confirm("Na pewno usunąć flagę?")) {
+                                                        // deleteFlag(ind, index, offer.komentarzFlagi || "", offer.nazwaFlagi, offer.subiektDBTowarId);
+                                                        deleteFlag(ind, index, "", "", offer.subiektDBTowarId);
+
+                                                    }
+                                                }}
+                                            >
+                                                Usuń Flagę
+                                            </Button>
+                                        )
+                                    }
                                     {/* {offer.komentarzFlagi && (
                                         <Button
                                             size="small"
@@ -492,8 +495,11 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                     )} */}
                                 </Grid>
                                 <Grid sx={{ color: 'gray', fontSize: '14px' }}>
+
                                     Stan magazynowy: {offer.stanMagazynowy} <br />
                                     {offer.stanMinimalny && <WarehouseEditor sku={offer.sku} eanIndex={ind} skuIndex={index} minimumStock={offer.stanMinimalny} changeMinimumStock={changeMinimumStock} />}
+                                    Sprzedaż 30 dni: {offer.SumaSprzedanychSztuk ? offer.SumaSprzedanychSztuk : 0} <br />
+
                                 </Grid>
                                 <Grid sx={{ color: 'green', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', width: '100%', marginTop: '20px' }}>
                                     {offer.cenaSpecjalna && <PriceEditor sku={offer.sku} priceType="cenaSpecjalna" eanIndex={ind} skuIndex={index} price={offer.cenaSpecjalna} changePrice={changePrice} />}
