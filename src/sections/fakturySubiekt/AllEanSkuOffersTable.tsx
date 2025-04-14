@@ -254,7 +254,7 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                         return {
                             ...sku,
                             komentarzFlagi: comment,
-                            nazwaFlagi: deleteFlagName ? "" : sku.nazwaFlagi
+                            nazwaFlagi: deleteFlagName ? "" : nazwaFlagi
                         };
                     })
                 };
@@ -458,30 +458,40 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                                     {offer.nazwaFlagi}
                                 </Grid>
                                 <Grid item xs={2} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 1 }}>
-                                    {offer.komentarzFlagi && <FlagCommentEditor
+                                    {offer.komentarzFlagi && offer.nazwaFlagi && <FlagCommentEditor
                                         offer={offer}
                                         ind={ind}
                                         index={index}
                                         changeFlagComment={changeFlagComment}
+                                        type="edit"
                                     />}
                                     {/* {offer.nazwaFlagi === "03 Zamówione u dostawcy" && ( */}
-                                    {offer.nazwaFlagi && (
+                                    {offer.nazwaFlagi ? (
 
-                                            <Button
-                                                size="small"
-                                                variant="outlined"
-                                                color="error"
-                                                onClick={() => {
-                                                    if (window.confirm("Na pewno usunąć flagę?")) {
-                                                        // deleteFlag(ind, index, offer.komentarzFlagi || "", offer.nazwaFlagi, offer.subiektDBTowarId);
-                                                        deleteFlag(ind, index, "", "", offer.subiektDBTowarId);
+                                        <Button
+                                            size="small"
+                                            variant="outlined"
+                                            color="error"
+                                            onClick={() => {
+                                                if (window.confirm("Na pewno usunąć flagę?")) {
+                                                    // deleteFlag(ind, index, offer.komentarzFlagi || "", offer.nazwaFlagi, offer.subiektDBTowarId);
+                                                    deleteFlag(ind, index, "", "", offer.subiektDBTowarId);
 
-                                                    }
-                                                }}
-                                            >
-                                                Usuń Flagę
-                                            </Button>
-                                        )
+                                                }
+                                            }}
+                                        >
+                                            Usuń Flagę
+                                        </Button>
+                                    )
+                                        :
+                                        <FlagCommentEditor
+                                            offer={offer}
+                                            ind={ind}
+                                            index={index}
+                                            changeFlagComment={changeFlagComment}
+                                            type="add"
+                                        />
+
                                     }
                                     {/* {offer.komentarzFlagi && (
                                         <Button
