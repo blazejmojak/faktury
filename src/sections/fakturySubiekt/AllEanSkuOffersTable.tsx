@@ -430,7 +430,8 @@ export default function AllEanSkuOffersTable({ allOffersBySkuAndAllegro, invoice
                             </Grid>
                             <Grid item xs={1.5}>
                                 {/* {parseFloat(sku.supplierPrice.replace(',', '.')).toFixed(2)} */}
-                                {changeNumberPrice(sku.supplierPrice)}
+                                {changeNumberPrice(sku.supplierPrice)} | {(parseFloat(sku.supplierPrice.replace(',', '.')) * 1.23).toFixed(2)}
+
                             </Grid>
 
                         </Grid>
